@@ -7,12 +7,53 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="메인페이지요!!!!!!! !"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="16dp"
+        android:text="오늘의 활동 선택"
+        android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_activityList_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/text"
+        app:layout_constraintHeight_max="400dp"/>
+
+    <ImageView
+        android:id="@+id/img_add_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_add_circle_mint_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_activityList_main" />
+
+    <EditText
+        android:id="@+id/edit_list_main"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:hint="할 일"
+        app:layout_constraintTop_toBottomOf="@id/rv_activityList_main"
+        app:layout_constraintStart_toEndOf="@id/img_add_main"
+        app:layout_constraintEnd_toStartOf="@id/btn_add_main"/>
+
+    <Button
+        android:id="@+id/btn_add_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD"
+        app:layout_constraintTop_toBottomOf="@id/rv_activityList_main"
+        app:layout_constraintStart_toEndOf="@id/edit_list_main"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
