@@ -4,12 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Struct;
+
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
-    private ItemTouchHelperListener listener;
+
+    public interface OnItemMoveListener {
+        void onItemMove(int from_position, int to_position);
+        void onItemSwipe(int delete_position);
+    }
+    private OnItemMoveListener mItemMoveListener;
 
     //생성자
-    public ItemTouchHelperCallback(ItemTouchHelperListener listener) {
-        this.listener = listener;
+    public ItemTouchHelperCallback(OnItemMoveListener listener) {
+        mItemMoveListener = listener;
     }
 
     //드래그, 스와이프 무브먼트 가져옴
@@ -20,21 +27,22 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         return makeMovementFlags(drag_flags,swipe_flags);
     }
 
-    //드래그 오께
+/*    //드래그 오께
     @Override
     public boolean isLongPressDragEnabled() {
         return true;
-    }
+    }*/
 
     //드래그, 위치 이동
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-        return listener.onItemMove(viewHolder.getAdapterPosition(),target.getAdapterPosition());
+        mItemMoveListener.onItemMove(viewHolder.getAdapterPosition(),target.getAdapterPosition());
+        return true;
     }
 
     //스와이프 -> 삭제니까 어댑터 위치 가져옴
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        listener.onItemSwipe(viewHolder.getAdapterPosition());
+        mItemMoveListener.onItemSwipe(viewHolder.getAdapterPosition());
     }
 }

@@ -1,27 +1,37 @@
 package com.kimhello.isolationtimer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.MotionEventCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder>
-        implements ItemTouchHelperListener{
+public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdapder.MyViewHolder>
+        implements ItemTouchHelperCallback.OnItemMoveListener{
+
+    public interface OnstartDragListener {
+        void onStartDrag(MyViewHolder holder);
+    }
 
     private ArrayList<String> mDataset = new ArrayList<>();
 
-    // 생성자
-    public RVAdapter() {
+    private final Context mContext;
+    private final OnstartDragListener mStartDragListener;
 
+    // 생성자
+    public mRecyclerViewAdapder(Context context, OnstartDragListener startDragListener) {
+        mStartDragListener = startDragListener;
+        mContext = context;
     }
 
     //아이템 뷰 저장 뷰홀터 클래스
@@ -56,8 +66,19 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder>
 
     //position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        holder.onBind(mDataset.get(position));
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        String item = mDataset.get(position);
+        holder.radioButton.setText(item);
+
+        holder.dragButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    mStartDragListener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -74,18 +95,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder>
     }
 
     @Override
-    public boolean onItemMove(int from_position, int to_position) {
-        //이동할 텍스트 저장
-        String str_move = mDataset.get(from_position);
-        //이동할 텍스트 삭제
-        mDataset.remove(from_position);
-        //이동하고 싶은 position에 추가
-        mDataset.add(to_position,str_move);
-
+    public void onItemMove(int from_position, int to_position) {
+        Collections.swap(mDataset, from_position, to_position);
         //Adapter에 데이터 이동알림
         notifyItemMoved(from_position,to_position);
-        return true;
-
     }
 
     @Override
