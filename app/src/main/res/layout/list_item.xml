@@ -1,26 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <RadioButton
-        android:id="@+id/rbtn_text_list"
+        android:id="@+id/rBtn_check_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_drag_list" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+    <EditText
+        android:id="@+id/edit_text_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:background="@android:color/transparent"
+        android:text="에디트 텍스트임!!!!!!"
+        android:textSize="20dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/rBtn_check_list"
+        app:layout_constraintStart_toEndOf="@+id/rBtn_check_list" />
 
     <ImageButton
         android:id="@+id/btn_drag_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_drag_handle_mint_24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="@android:color/transparent"
-        android:layout_gravity="center|right"/>
-</LinearLayout>
+        android:src="@drawable/ic_drag_handle_mint_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rBtn_check_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/edit_text_list" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

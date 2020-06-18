@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.sql.Struct;
-
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     public interface OnItemMoveListener {
@@ -27,11 +25,6 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         return makeMovementFlags(drag_flags,swipe_flags);
     }
 
-/*    //드래그 오께
-    @Override
-    public boolean isLongPressDragEnabled() {
-        return true;
-    }*/
 
     //드래그, 위치 이동
     @Override
