@@ -1,16 +1,21 @@
 package com.kimhello.isolationtimer;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     public interface OnItemMoveListener {
-        void onItemMove(int from_position, int to_position);
+        boolean onItemDrag(int from_position, int to_position);
+        void onItemDragged(int from_position, int to_position);
         void onItemSwipe(int delete_position);
     }
     private OnItemMoveListener mItemMoveListener;
+
+    private int dragFromPosition=-1;
+    private int dragToPosition=-1;
 
     //생성자
     public ItemTouchHelperCallback(OnItemMoveListener listener) {
@@ -29,7 +34,30 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
     //드래그, 위치 이동
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-        mItemMoveListener.onItemMove(viewHolder.getAdapterPosition(),target.getAdapterPosition());
+        dragFromPosition=viewHolder.getAdapterPosition();
+        dragToPosition=target.getAdapterPosition();
+        return mItemMoveListener.onItemDrag(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+    }
+
+    @Override
+    public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+        super.onSelectedChanged(viewHolder, actionState);
+
+        switch (actionState) {
+            case ItemTouchHelper.ACTION_STATE_DRAG :
+                dragFromPosition=viewHolder.getAdapterPosition();
+            case ItemTouchHelper.ACTION_STATE_IDLE : {
+                if (dragFromPosition!=-1&&dragToPosition!=-1&&dragFromPosition!=dragToPosition) {
+                    mItemMoveListener.onItemDragged(dragFromPosition, dragToPosition);
+                    dragFromPosition=-1;
+                    dragToPosition=-1;
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean isLongPressDragEnabled() {
         return true;
     }
 

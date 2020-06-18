@@ -7,8 +7,10 @@ public class ItemDBContract {
     public static final String COL_ID = "item_id";
     public static final String COL_TITLE = "item_title";
 
-    public static final String SQL_CREATE_TBL = "CREATE TABLE IF NOT EXISTS " + TABLE_ITEM + " " +
-            "(" + COL_ID + " INTEGER PRIMARY KEY" + ", " + COL_TITLE + " CHAR(20)" + ")";
+    public static final String SQL_CREATE_TBL = "CREATE TABLE IF NOT EXISTS "
+            + TABLE_ITEM + " " + "("
+            + COL_ID + " INTEGER PRIMARY KEY" + ", "
+            + COL_TITLE + " CHAR(20)" + ")";
 
     public static final String SQL_DROP_TBL = "DROP TABLE IF EXISTS " + TABLE_ITEM;
 

@@ -28,46 +28,49 @@
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@+id/text" />
 
-    <ImageView
-        android:id="@+id/img_add_main"
+    <Button
+        android:id="@+id/btn_add_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_add_circle_mint_24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_activityList_main" />
+        android:layout_marginTop="36dp"
+        android:text="ADD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edit_list_main"
+        app:layout_constraintTop_toBottomOf="@id/rv_activityList_main" />
 
     <EditText
         android:id="@+id/edit_list_main"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="36dp"
         android:hint="할 일"
-        app:layout_constraintTop_toBottomOf="@id/rv_activityList_main"
+        app:layout_constraintEnd_toStartOf="@id/btn_add_main"
         app:layout_constraintStart_toEndOf="@id/img_add_main"
-        app:layout_constraintEnd_toStartOf="@id/btn_add_main"/>
+        app:layout_constraintTop_toBottomOf="@id/rv_activityList_main" />
 
-    <Button
-        android:id="@+id/btn_add_main"
+    <ImageView
+        android:id="@+id/img_add_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ADD"
-        app:layout_constraintTop_toBottomOf="@id/rv_activityList_main"
-        app:layout_constraintStart_toEndOf="@id/edit_list_main"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="52dp"
+        android:src="@drawable/ic_add_circle_mint_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_activityList_main" />
 
     <Button
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#91D0D2"
         android:text="START"
         android:textColor="#ffffff"
-        android:background="#91D0D2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_list_main"/>
+        app:layout_constraintTop_toBottomOf="@+id/edit_list_main" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

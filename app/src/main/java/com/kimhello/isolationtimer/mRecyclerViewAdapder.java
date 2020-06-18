@@ -2,6 +2,7 @@ package com.kimhello.isolationtimer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import static com.kimhello.isolationtimer.ItemDBContract.COL_ID;
+import static com.kimhello.isolationtimer.ItemDBContract.COL_TITLE;
+import static com.kimhello.isolationtimer.ItemDBContract.TABLE_ITEM;
 
 public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdapder.MyViewHolder>
         implements ItemTouchHelperCallback.OnItemMoveListener{
@@ -92,13 +97,30 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
     }
 
     @Override
-    public void onItemMove(int from_position, int to_position) {
-        String temp = mDataset.get(from_position);
+    public boolean onItemDrag(int from_position, int to_position) {
+        return false;
+    }
+
+    @Override
+    public void onItemDragged(int from_position, int to_position) {
+        String temp;
+        for (int i =0 ; i<mDataset.size();i++) {
+            temp = mDataset.get(i);
+            dbHelpter.update(temp, i);
+        }
+        temp = mDataset.get(from_position);
         dbHelpter.update(temp, to_position);
+        Log.d("swap1", "UPDATE " + TABLE_ITEM + " SET "+ COL_TITLE +" = " + temp + " WHERE " + COL_ID + " = " + (to_position) + " ");
         temp = mDataset.get(to_position);
-        dbHelpter.update(temp, from_position);
+        dbHelpter.update(temp, from_position-1);
+        Log.d("swap2", "UPDATE " + TABLE_ITEM + " SET "+ COL_TITLE +" = " + temp + " WHERE " + COL_ID + " = " + (from_position) + " ");
         Collections.swap(mDataset, from_position, to_position);
         notifyItemMoved(from_position,to_position-1);
+        for (int i =0 ; i<mDataset.size();i++) {
+            temp = mDataset.get(i);
+            dbHelpter.update(temp, i);
+            Log.d("final", i + " : "+temp);
+        }
     }
 
     @Override
