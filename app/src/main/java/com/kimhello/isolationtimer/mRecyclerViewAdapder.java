@@ -72,7 +72,7 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
         String tmpItem = mDataset.get(position);
         holder.editText.setText(tmpItem);
 
-        holder.dragButton.setOnTouchListener(new View.OnTouchListener() {
+        /*holder.dragButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -80,7 +80,7 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
                 }
                 return false;
             }
-        });
+        });*/
     }
 
     //item 개수 리턴
@@ -96,12 +96,13 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
 
     }
 
-    @Override
+   /* @Override
     public boolean onItemDrag(int from_position, int to_position) {
         return false;
-    }
+    }*/
 
-    @Override
+    // 드래그 시 목록 순서 변경되도록 했지만 리사이클러 뷰 사이에 잘 반영되지 않음. -> 일단 드래그막아놓음
+    /*@Override
     public void onItemDragged(int from_position, int to_position) {
         String temp;
         for (int i =0 ; i<mDataset.size();i++) {
@@ -121,7 +122,7 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
             dbHelpter.update(temp, i);
             Log.d("final", i + " : "+temp);
         }
-    }
+    }*/
 
     @Override
     public void onItemSwipe(int position) {

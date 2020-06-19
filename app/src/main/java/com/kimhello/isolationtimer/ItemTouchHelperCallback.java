@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     public interface OnItemMoveListener {
-        boolean onItemDrag(int from_position, int to_position);
-        void onItemDragged(int from_position, int to_position);
+        //boolean onItemDrag(int from_position, int to_position);
+        //void onItemDragged(int from_position, int to_position);
         void onItemSwipe(int delete_position);
     }
     private OnItemMoveListener mItemMoveListener;
@@ -34,12 +34,13 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
     //드래그, 위치 이동
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-        dragFromPosition=viewHolder.getAdapterPosition();
+        /*dragFromPosition=viewHolder.getAdapterPosition();
         dragToPosition=target.getAdapterPosition();
-        return mItemMoveListener.onItemDrag(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        return mItemMoveListener.onItemDrag(viewHolder.getAdapterPosition(), target.getAdapterPosition());*/
+        return true;
     }
 
-    @Override
+    /*@Override
     public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
         super.onSelectedChanged(viewHolder, actionState);
 
@@ -54,7 +55,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
                 }
             }
         }
-    }
+    }*/
 
     @Override
     public boolean isLongPressDragEnabled() {
