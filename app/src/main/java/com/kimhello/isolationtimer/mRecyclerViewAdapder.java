@@ -4,23 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
-
-import static com.kimhello.isolationtimer.ItemDBContract.COL_ID;
-import static com.kimhello.isolationtimer.ItemDBContract.COL_TITLE;
-import static com.kimhello.isolationtimer.ItemDBContract.TABLE_ITEM;
 
 public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdapder.MyViewHolder>
         implements ItemTouchHelperCallback.OnItemMoveListener{
@@ -28,6 +22,8 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
     private ArrayList<String> mDataset = new ArrayList<>();
     private DBHelpter dbHelpter;
     private final OnstartDragListener mStartDragListener;
+
+    private int lastSelectedPosition = -1;
 
     public interface OnstartDragListener {
         void onStartDrag(MyViewHolder holder);
@@ -41,7 +37,7 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         RadioButton radioButton;
-        EditText editText;
+        TextView textView;
         ImageButton dragButton;
 
         public MyViewHolder(final View itemView) {
@@ -50,9 +46,21 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
 
             // 뷰 객체 참조
             this.radioButton = itemView.findViewById(R.id.rBtn_check_list);
-            this.editText = itemView.findViewById(R.id.edit_text_list);
+            this.textView = itemView.findViewById(R.id.tv_text_list);
             this.dragButton = itemView.findViewById(R.id.btn_drag_list);
 
+            radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(lastSelectedPosition==getAdapterPosition()){
+                        lastSelectedPosition= -1;
+                    }
+                    else {
+                        lastSelectedPosition = getAdapterPosition();
+                    }
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 
@@ -70,7 +78,9 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         String tmpItem = mDataset.get(position);
-        holder.editText.setText(tmpItem);
+        holder.textView.setText(tmpItem);
+
+        holder.radioButton.setChecked(lastSelectedPosition == position);
 
         /*holder.dragButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -130,5 +140,16 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
         mDataset.remove(position);
         notifyItemRemoved(position);
         dbHelpter.delete(temp);
+    }
+
+    public String getFocusedName() {
+        String focus;
+        if (lastSelectedPosition==-1) {
+            focus = null;
+        }
+        else {
+            focus = mDataset.get(lastSelectedPosition);
+        }
+        return focus;
     }
 }

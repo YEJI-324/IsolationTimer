@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/lock_icon"
+        app:layout_constraintBottom_toTopOf="@+id/count_lock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.608" />
+
+    <TextView
+        android:id="@+id/count_hour_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jalnan"
+        android:text="00"
+        android:textColor="#ffffff"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.345"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/count_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:textSize="50sp"
+        android:textColor="#ffffff"
+        android:fontFamily="@font/jalnan"
+        app:layout_constraintStart_toEndOf="@+id/count_hour_lock"
+        app:layout_constraintTop_toTopOf="@+id/count_hour_lock" />
+
+    <TextView
+        android:id="@+id/count_min_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:textSize="50sp"
+        android:textColor="#ffffff"
+        android:fontFamily="@font/jalnan"
+        app:layout_constraintStart_toEndOf="@+id/count_lock"
+        app:layout_constraintTop_toTopOf="@+id/count_lock" />
+
+    <TextView
+        android:id="@+id/count_sec_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/jalnan"
+        android:text="00"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/count_min_lock"
+        app:layout_constraintStart_toEndOf="@+id/count_min_lock" />
+
+    <TextView
+        android:id="@+id/noti_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="무슨 활동 중입니다."
+        android:textSize="20sp"
+        android:fontFamily="@font/jalnan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/count_hour_lock"
+        app:layout_constraintVertical_bias="0.228" />
+</androidx.constraintlayout.widget.ConstraintLayout>
