@@ -3,7 +3,6 @@ package com.kimhello.isolationtimer;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,10 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,7 +32,7 @@ public class MainActivity extends AppCompatActivity
     mRecyclerViewAdapder mAdapter;
     EditText add_item ,count_hour, count_min;
     TextView tv_timer;
-    Button addButton, startButton, showGraphButton;
+    Button addButton, startButton, chartButton;
     private ArrayList<String> Items = new ArrayList<>();
     ItemTouchHelper mItemTouchHelper;
     SQLiteDatabase sqlDB;
@@ -44,6 +40,7 @@ public class MainActivity extends AppCompatActivity
 
     String fileName = "timer_saved";
     String activity_name;
+    int activity_index;
 
     private String conversionTime; // 타이머 돌릴 총 시간
 
@@ -65,14 +62,13 @@ public class MainActivity extends AppCompatActivity
         count_min = (EditText) findViewById(R.id.edit_min_main);
         startButton = (Button) findViewById(R.id.btn_start_main);
         // graph
-        showGraphButton = (Button) findViewById(R.id.btn_graph_main);
+        chartButton = (Button) findViewById(R.id.btn_chart_main);
 
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
         dbHelpter = DBHelpter.getInstance(getApplicationContext());
         if(dbHelpter.getAll()!=null) { Items = dbHelpter.getAll();}
-
         mAdapter = new mRecyclerViewAdapder(Items, this, this); //내가 어댑터 정의 , 데이터 셋에 데이터 넣어줘야함
 
         ItemTouchHelperCallback mCallback = new ItemTouchHelperCallback(mAdapter);
@@ -80,13 +76,6 @@ public class MainActivity extends AppCompatActivity
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         mRecyclerView.setAdapter(mAdapter);
-
-        while(add_item.isFocused()) {
-            startButton.setVisibility(View.INVISIBLE);
-            count_hour.setVisibility(View.INVISIBLE);
-            count_min.setVisibility(View.INVISIBLE);
-            tv_timer.setVisibility(View.INVISIBLE);
-        }
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +93,7 @@ public class MainActivity extends AppCompatActivity
                     add_item.setText("");
                     add_item.clearFocus();
                     Toast.makeText(getApplicationContext(), "'"+str_item +"'"+ " 활동이 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                    Log.d("dbinsert", "check update " + ItemDBContract.SQL_INSERT + "(" + (Items.size() - 1) + ", " + '"' + str_item + '"' + ", " + 0 + ")");
                 }
             }
         });
@@ -117,6 +107,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 activity_name = mAdapter.getFocusedName();
+                activity_index = mAdapter.getFocusedIndex();
                 //넘겨줄 값 : 액티비티 이름, 시 분 초 스트링
                 if(activity_name==null) {
                     Toast.makeText(getApplicationContext(), "활동을 선택해주세요.", Toast.LENGTH_SHORT).show();
@@ -138,11 +129,19 @@ public class MainActivity extends AppCompatActivity
                     intent.putExtra("name_str", activity_name);
                     intent.putExtra("hour_str", count_hour.getText().toString());
                     intent.putExtra("min_str", count_min.getText().toString());
+                    intent.putExtra("index", activity_index);
                     startActivityForResult(intent,0);
                 }
             }
         });
 
+        chartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), PieChartActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -152,4 +152,15 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
         }
         return focus;
     }
+
+    public Integer getFocusedIndex() {
+        int focus;
+        if(lastSelectedPosition == -1) {
+            focus = -1;
+        }
+        else {
+            focus = lastSelectedPosition;
+        }
+        return focus;
+    }
 }

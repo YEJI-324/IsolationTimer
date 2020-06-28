@@ -1,6 +1,5 @@
 package com.kimhello.isolationtimer;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -48,25 +47,36 @@ class DBHelpter extends SQLiteOpenHelper {
     }
 
     public void insert (int id, String str_item) {
-        db.execSQL(ItemDBContract.SQL_INSERT + "(" + id + ", " + '"' + str_item + '"' + ")");
+        db.execSQL(ItemDBContract.SQL_INSERT + "(" + id + ", " + '"' + str_item + '"' + ", " + 0 + ")");
     }
 
     public void delete(String title) {
         db.execSQL(ItemDBContract.SQL_DELETED + '"' + title + '"');
     }
 
-    public void update(String title, int index) {
-        db.execSQL(ItemDBContract.SQL_UPDATE+ '"' + title + '"' + ItemDBContract.SQL_WHERE+ index);
+    public void updatetime(int time, String title) {
+        db.execSQL(ItemDBContract.SQL_UPDATE+ time + ItemDBContract.SQL_WHERE + '"' + title + '"');
     }
 
     public ArrayList<String> getAll() {
         ArrayList<String> temp = new ArrayList<>();
         db = getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(ItemDBContract.SQL_SELECT, null);
+        Cursor cursor = db.rawQuery(ItemDBContract.SQL_SELECT_TITLE, null);
 
         while (cursor.moveToNext()) {
             temp.add(cursor.getString(0));
+        }
+        return temp;
+    }
+
+    public ArrayList<Integer> getAllTimes() {
+        ArrayList<Integer> temp = new ArrayList<>();
+        db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(ItemDBContract.SQL_SELECT_TIME, null);
+
+        while (cursor.moveToNext()) {
+            temp.add(cursor.getInt(0));
         }
         return temp;
     }

@@ -3,6 +3,7 @@ package com.kimhello.isolationtimer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,9 +12,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class LockActivity extends AppCompatActivity {
     TextView count_hour, count_min, count_sec, noti_name;
     String name_str, hour_str, min_str;
+    DBHelpter dbHelpter;
+    ArrayList<String> Items;
+    ArrayList<Integer> Times;
+    int cur_index, conversionInt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,8 +39,14 @@ public class LockActivity extends AppCompatActivity {
         name_str = inIntent.getStringExtra("name_str");
         hour_str = inIntent.getStringExtra("hour_str");
         min_str = inIntent.getStringExtra("min_str");
+        cur_index = inIntent.getIntExtra("index", -1);
 
         String conversionTime = hour_str + min_str;
+        conversionInt = Integer.valueOf(hour_str)*60 + Integer.valueOf(min_str);
+        dbHelpter = DBHelpter.getInstance(getApplicationContext());
+        if(dbHelpter.getAll()!=null) { Items = dbHelpter.getAll();}
+        if(dbHelpter.getAllTimes()!=null) {Times = dbHelpter.getAllTimes();}
+
 
         if(name_str==null) {
             Toast.makeText(getApplicationContext(), "활동을 선택해주세요.", Toast.LENGTH_SHORT).show();
@@ -96,6 +109,7 @@ public class LockActivity extends AppCompatActivity {
             // 제한시간 종료시
             @Override
             public void onFinish() {
+                dbHelpter.updatetime(Times.get(cur_index)+conversionInt, Items.get(cur_index));
                 count_hour.setText("00");
                 count_min.setText("00");
                 count_sec.setText("00");

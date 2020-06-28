@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".MainActivity"/>
         <activity android:name=".LockActivity" android:label="Lock 액티비티"/>
+        <activity android:name=".PieChartActivity" android:label="Chart 액티비티"/>
 
     </application>
 
