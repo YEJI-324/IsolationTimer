@@ -2,21 +2,19 @@ package com.kimhello.isolationtimer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdapder.MyViewHolder>
+public class RecyclerViewAdapder extends RecyclerView.Adapter<RecyclerViewAdapder.MyViewHolder>
         implements ItemTouchHelperCallback.OnItemMoveListener{
 
     private ArrayList<String> mDataset = new ArrayList<>();
@@ -30,7 +28,7 @@ public class mRecyclerViewAdapder extends RecyclerView.Adapter<mRecyclerViewAdap
     }
 
     // constructor
-    public mRecyclerViewAdapder(ArrayList<String> ItemDataset, Context context, OnstartDragListener startDragListener) {
+    public RecyclerViewAdapder(ArrayList<String> ItemDataset, Context context, OnstartDragListener startDragListener) {
         this.mDataset = ItemDataset;
         mStartDragListener = startDragListener;
     }

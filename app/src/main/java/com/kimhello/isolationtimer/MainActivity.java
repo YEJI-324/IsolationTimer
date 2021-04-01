@@ -25,11 +25,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements mRecyclerViewAdapder.OnstartDragListener{
+        implements RecyclerViewAdapder.OnstartDragListener{
 
     RecyclerView mRecyclerView;
     LinearLayoutManager layoutManager;
-    mRecyclerViewAdapder mAdapter;
+    RecyclerViewAdapder mAdapter;
     EditText add_item ,count_hour, count_min;
     TextView tv_timer;
     Button addButton, startButton, chartButton;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         dbHelpter = DBHelpter.getInstance(getApplicationContext());
         if(dbHelpter.getAll()!=null) { Items = dbHelpter.getAll();}
-        mAdapter = new mRecyclerViewAdapder(Items, this, this); //내가 어댑터 정의 , 데이터 셋에 데이터 넣어줘야함
+        mAdapter = new RecyclerViewAdapder(Items, this, this); //내가 어댑터 정의 , 데이터 셋에 데이터 넣어줘야함
 
         ItemTouchHelperCallback mCallback = new ItemTouchHelperCallback(mAdapter);
         mItemTouchHelper = new ItemTouchHelper(mCallback);
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onStartDrag(com.kimhello.isolationtimer.mRecyclerViewAdapder.MyViewHolder holder) {
+    public void onStartDrag(RecyclerViewAdapder.MyViewHolder holder) {
         mItemTouchHelper.startDrag(holder);
     }
 
